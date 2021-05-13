@@ -1,7 +1,7 @@
 from starlette.routing import Route
 from api.controllers import containers, images
 
-routes = [
+api_routes = [
     # Route("/containers", recommendations.get_recommendations, name="get_recommendations", methods=['POST']),
-    # Route('/images', settings.set_limit, name="set_limit", methods=["POST"]),    
+    Route('/images', images.get_all, name="get_all", methods=["GET"]),    
 ]
