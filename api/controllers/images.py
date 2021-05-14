@@ -40,3 +40,15 @@ def delete_by_id(request):
             return JSONResponse({"error": "Error not known: {0}".format(e.args[0].response.content)}, status_code=500)          
     
     return JSONResponse(status_code=204)
+
+def delete_all(request):
+    images = DOCKER_CLIENT.images.list()
+    output = []
+    for image in images:
+        name_tag = image.attrs["RepoTags"][0]
+        print("Deleting image: {0}".format(name_tag))
+        DOCKER_CLIENT.images.remove(image.short_id.split(":")[1])
+        output.append(name_tag)
+
+    return JSONResponse({"deleted":output}, status_code=200)
+        
