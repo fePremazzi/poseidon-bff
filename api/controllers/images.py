@@ -7,14 +7,39 @@ from requests import exceptions
 DOCKER_CLIENT = docker.DockerClient(base_url="http://{}:{}".format(settings.DOCKER_HOST_IP, settings.DOCKER_HOST_PORT))
 
 
+def get_by_id(request):
+    image_id = request.path_params['image_id']
+    output = []
+
+    try:
+        image = DOCKER_CLIENT.images.get(image_id)
+    except Exception as e :
+        print("Error geting image {0} ".format(e))
+        return JSONResponse(output, status_code=200)
+
+
+    name, tag = image.attrs["RepoTags"][0].split(":")
+    output.append(
+        {
+            "shortId": image.short_id.split(":")[1],
+            "tag": tag,
+            "name": name,
+            "createdAt": image.attrs["Created"].split(".")[0]
+        }
+    )
+    
+    return JSONResponse(output, status_code=200)
+
 def get_all(request):
     images = None
+    output = []
+
     try:
         images = DOCKER_CLIENT.images.list()
     except Exception as e :
         print("Error listing all images {0} ".format(e))
+        return JSONResponse(output, status_code=200)
 
-    output = []
     for image in images:
         name, tag = image.attrs["RepoTags"][0].split(":")
         output.append(
