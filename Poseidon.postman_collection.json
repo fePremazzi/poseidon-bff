@@ -1,0 +1,122 @@
+{
+	"info": {
+		"_postman_id": "12dce018-951d-4c0d-b78f-04fa3d807b0d",
+		"name": "Poseidon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BFF",
+			"item": [
+				{
+					"name": "Images - List All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://{{bff_url}}:{{bff_port}}/images"
+					},
+					"response": []
+				},
+				{
+					"name": "Images - Get by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://{{bff_url}}:{{bff_port}}/images/7ab27dbbfb"
+					},
+					"response": []
+				},
+				{
+					"name": "Images - Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://{{bff_url}}:{{bff_port}}/images/bc8d70f9ef"
+					},
+					"response": []
+				},
+				{
+					"name": "Images - Delete All",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://{{bff_url}}:{{bff_port}}/images"
+					},
+					"response": []
+				},
+				{
+					"name": "Images - Pull",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"redis\",\r\n    \"tag\":\"latest\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://{{bff_url}}:{{bff_port}}/images"
+					},
+					"response": []
+				},
+				{
+					"name": "Containers - List All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://{{bff_url}}:{{bff_port}}/containers"
+					},
+					"response": []
+				},
+				{
+					"name": "Containers - Get by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://{{bff_url}}:{{bff_port}}/containers/c0323"
+					},
+					"response": []
+				},
+				{
+					"name": "Containers - Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://{{bff_url}}:{{bff_port}}/containers/7f83ef5a2501"
+					},
+					"response": []
+				},
+				{
+					"name": "Containers - Delete All",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://{{bff_url}}:{{bff_port}}/containers"
+					},
+					"response": []
+				},
+				{
+					"name": "Containers - Run",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"image\": \"nginx\",\r\n    \"name\": \"nginx_teste333333\",\r\n    \"port\": \"8086:80\",\r\n    \"env\":{\r\n        \"IXI\": \"OXI\"\r\n    }\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://{{bff_url}}:{{bff_port}}/containers"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
