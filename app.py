@@ -9,7 +9,7 @@ def startup():
     print('Ready to go')
 
 middleware = [
-    Middleware(CORSMiddleware, allow_origins=['*'])
+    Middleware(CORSMiddleware, allow_origins=['*'], allow_methods=['*'])
 ]
 
 app = Starlette(debug=True, 
