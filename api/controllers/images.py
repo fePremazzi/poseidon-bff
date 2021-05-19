@@ -39,16 +39,21 @@ def get_all(request):
         print("Error listing all images {0} ".format(e))
         return JSONResponse(output, status_code=200)
 
+    print("Images: {0}".format(images))
     for image in images:
-        name, tag = image.attrs["RepoTags"][0].split(":")
-        output.append(
-            {
-                "ShortId": image.short_id.split(":")[1],
-                "Tag": tag,
-                "Name": name,
-                "CreatedAt": image.attrs["Created"].split(".")[0]
-            }
-        )
+        try:
+            name, tag = image.attrs["RepoTags"][0].split(":")
+            output.append(
+                {
+                    "ShortId": image.short_id.split(":")[1],
+                    "Tag": tag,
+                    "Name": name,
+                    "CreatedAt": image.attrs["Created"].split(".")[0]
+                }
+            )
+        except :
+            print("Error reading image {0}".format(image))
+        
     
     return JSONResponse(output, status_code=200)
 

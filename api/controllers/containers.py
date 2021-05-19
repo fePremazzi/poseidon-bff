@@ -23,7 +23,8 @@ def get_by_id(request):
             "Name": container.attrs["Name"][1:],
             "CreatedAt": container.attrs["Created"].split(".")[0],
             "State": container.attrs["State"],
-            "Ports": container.attrs["NetworkSettings"]["Ports"]
+            "Ports": container.attrs["NetworkSettings"]["Ports"],
+            "NetworkPorts": container.attrs["NetworkSettings"]["Ports"]
         }
     )
     
@@ -48,7 +49,8 @@ def get_all(request):
                 "CreatedAt": container.attrs["Created"].split(".")[0],
                 "State": container.attrs["State"],
                 "Ports": container.attrs["HostConfig"]["PortBindings"],
-                "Env": container.attrs["Config"]["Env"]
+                "Env": container.attrs["Config"]["Env"],
+                "NetworkPorts": container.attrs["NetworkSettings"]["Ports"]
             }
         )
     
@@ -70,10 +72,15 @@ async def run(request):
     container_name = input_data["name"] if 'name' in input_data else None
     container_port = input_data["port"] if 'port' in input_data else None
     container_env = input_data["env"] if 'env' in input_data else None
-    external_port, internal_port = container_port.split(":")
+    if container_port != None:
+        external_port, internal_port = container_port.split(":")
 
     try:
-        container = DOCKER_CLIENT.containers.run(image=container_image, detach=True, name=container_name, ports={'{0}/tcp'.format(internal_port):external_port}, environment=container_env)
+        container = DOCKER_CLIENT.containers.run(image=container_image, 
+                                                    detach=True, 
+                                                    name=container_name, 
+                                                    ports={'{0}/tcp'.format(internal_port):external_port} if container_port != None else None, 
+                                                    environment=container_env)
     except Exception as e:
         print("Error creating image {0} . Exception: {1}".format(container_image, e))
         return JSONResponse({"Error": "Error not known: {0}".format(e.args[0].response.content)}, status_code=500)   
@@ -87,7 +94,8 @@ async def run(request):
                 "CreatedAt": container.attrs["Created"].split(".")[0],
                 "State": container.attrs["State"],
                 "Ports": container.attrs["HostConfig"]["PortBindings"],
-                "Env": container.attrs["Config"]["Env"]
+                "Env": container.attrs["Config"]["Env"],
+                "NetworkPorts": container.attrs["NetworkSettings"]["Ports"]
             }
         )
 
